@@ -112,9 +112,11 @@ export class OrderFormComponent {
 
     this.ordersService.createOrder(payload).subscribe({
       next: (order) => {
+        // Back to the board, not into the order's own details fetch: createOrder()
+        // already added it to local state from the POST response, so the board shows
+        // it immediately without depending on a follow-up network read succeeding.
         this.toast.success(this.i18n.t('form.success', { number: order.number }));
-        this.ordersService.refreshNow();
-        this.router.navigate(['/orders', order.id]);
+        this.router.navigate(['/orders'], { queryParamsHandling: 'preserve' });
       },
       error: () => {
         this.submitting.set(false);
