@@ -8,6 +8,7 @@
 .filters__search {
   position: relative;
   flex: 1 1 220px;
+  min-width: 0;
   max-width: 340px;
   display: flex;
   align-items: center;

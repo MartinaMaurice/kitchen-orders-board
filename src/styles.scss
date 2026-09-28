@@ -219,6 +219,11 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  /* Without this, a `.field` placed as a flex/grid item won't shrink below its
+     input's intrinsic content width, and the row silently overflows instead
+     of the input shrinking — the cause of the horizontal overflow on narrow
+     screens inside the item rows and the search bar. */
+  min-width: 0;
 }
 
 .field__label {
