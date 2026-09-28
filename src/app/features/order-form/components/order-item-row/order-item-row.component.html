@@ -1,0 +1,59 @@
+<div class="item-row" [formGroup]="group()">
+  <div class="field item-row__menu">
+    <label class="visually-hidden" [for]="'menu-' + index()">{{ i18n.t('form.item.menu') }}</label>
+    <select [id]="'menu-' + index()" class="field__control" formControlName="menuId">
+      <option value="" disabled>{{ i18n.t('form.item.menu') }}</option>
+      @for (item of menu(); track item.id) {
+        <option [value]="item.id">{{ item.name }} — EGP {{ item.price.toFixed(2) }}</option>
+      }
+    </select>
+    @if (group().controls.menuId.invalid && group().controls.menuId.touched) {
+      <span class="field__error">{{ i18n.t('error.required') }}</span>
+    }
+  </div>
+
+  <div class="field item-row__qty">
+    <label class="visually-hidden" [for]="'qty-' + index()">{{ i18n.t('form.item.qty') }}</label>
+    <input
+      [id]="'qty-' + index()"
+      type="number"
+      class="field__control"
+      formControlName="qty"
+      min="1"
+      max="20"
+      [attr.aria-label]="i18n.t('form.item.qty')"
+    />
+    @if (group().controls.qty.invalid && group().controls.qty.touched) {
+      <span class="field__error">
+        @if (group().controls.qty.hasError('required')) {
+          {{ i18n.t('error.required') }}
+        } @else if (group().controls.qty.hasError('min')) {
+          {{ i18n.t('error.min', { min: 1 }) }}
+        } @else if (group().controls.qty.hasError('max')) {
+          {{ i18n.t('error.max', { max: 20 }) }}
+        }
+      </span>
+    }
+  </div>
+
+  <div class="field item-row__note">
+    <label class="visually-hidden" [for]="'note-' + index()">{{ i18n.t('form.item.note') }}</label>
+    <input
+      [id]="'note-' + index()"
+      type="text"
+      class="field__control"
+      formControlName="note"
+      [placeholder]="i18n.t('form.item.note')"
+    />
+  </div>
+
+  <button
+    type="button"
+    class="btn btn--danger-outline btn--sm item-row__remove"
+    [disabled]="!canRemove()"
+    [attr.aria-label]="i18n.t('form.item.remove')"
+    (click)="remove.emit()"
+  >
+    &times;
+  </button>
+</div>
