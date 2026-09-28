@@ -1,5 +1,9 @@
 .modal-overlay {
-  position: fixed;
+  /* Positioned relative to <main> (not the viewport): sizing then follows
+     the app's own, reliably-bounded layout container instead of the
+     browser's global viewport concept, which is what a fixed-position
+     element with `inset: 0` would size against. */
+  position: absolute;
   inset: 0;
   z-index: 500;
   display: flex;
