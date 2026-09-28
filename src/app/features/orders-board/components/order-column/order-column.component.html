@@ -4,14 +4,27 @@
     <span class="column__count">{{ orders().length }}</span>
   </header>
 
-  <div class="column__body">
+  <div
+    class="column__body"
+    cdkDropList
+    [cdkDropListData]="orders()"
+    [cdkDropListEnterPredicate]="enterPredicate"
+    cdkDropListSortingDisabled
+    (cdkDropListDropped)="onDropped($event)"
+  >
     @for (order of orders(); track order.id) {
       <app-order-card
+        cdkDrag
+        [cdkDragData]="order"
+        [cdkDragDisabled]="status() === 'served'"
+        class="column__drag-item"
         [order]="order"
         [menu]="menu()"
         [advancing]="advancingId() === order.id"
         (advance)="advance.emit($event)"
-      />
+      >
+        <div *cdkDragPlaceholder class="column__drag-placeholder"></div>
+      </app-order-card>
     } @empty {
       <app-empty-state
         [title]="hasActiveFilters() ? i18n.t('board.empty.noResults.title') : i18n.t('board.empty.title')"
