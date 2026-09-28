@@ -1,0 +1,23 @@
+.elapsed {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.elapsed--late {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.elapsed__late-tag {
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  background: var(--color-danger);
+  color: #fff;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+}
