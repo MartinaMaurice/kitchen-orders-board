@@ -1,0 +1,85 @@
+<div class="details-page">
+  <a class="details-page__back" routerLink="/orders">&larr; {{ i18n.t('details.back') }}</a>
+
+  @switch (kind()) {
+    @case ('loading') {
+      <app-loading-state [message]="i18n.t('details.loading')" />
+    }
+    @case ('not-found') {
+      <app-empty-state
+        [title]="i18n.t('details.notFound.title')"
+        [body]="i18n.t('details.notFound.body', { id: notFoundId() })"
+      />
+    }
+    @case ('error') {
+      <app-error-state [title]="i18n.t('details.error.title')" />
+    }
+    @case ('ready') {
+      @if (order(); as order) {
+        <article class="details-card">
+          <header class="details-card__header">
+            <div>
+              <h1>{{ i18n.t('details.title', { number: order.number }) }}</h1>
+              <p class="details-card__meta">
+                @if (order.type === 'dine-in') {
+                  {{ i18n.t('details.table', { table: order.table ?? '' }) }} ·
+                }
+                {{ i18n.t('type.' + order.type) }}
+                @if (order.phone) {
+                  · {{ i18n.t('details.phone', { phone: order.phone }) }}
+                }
+              </p>
+              <p class="details-card__meta">
+                {{ i18n.t('details.created', { time: (order.createdAt | date: 'medium') ?? '' }) }}
+              </p>
+            </div>
+            <span class="status-pill" [class]="'status-pill--' + order.status">
+              {{ i18n.t('status.' + order.status) }}
+            </span>
+          </header>
+
+          <section class="details-card__items">
+            <h2>{{ i18n.t('details.itemsTitle') }}</h2>
+            <ul class="item-list">
+              @for (line of pricing()?.lines; track line.menuId) {
+                <li class="item-list__row">
+                  <div class="item-list__info">
+                    <span class="item-list__name">{{ line.qty }} × {{ line.name }}</span>
+                    <span class="item-list__unit">{{
+                      i18n.t('details.qtyTimesPrice', { qty: line.qty, price: line.unitPrice.toFixed(2) })
+                    }}</span>
+                    @if (line.note) {
+                      <span class="item-list__note">{{ i18n.t('details.note', { note: line.note }) }}</span>
+                    }
+                  </div>
+                  <span class="item-list__total">EGP {{ line.lineTotal.toFixed(2) }}</span>
+                </li>
+              }
+            </ul>
+          </section>
+
+          <section class="details-card__totals">
+            <div class="totals-row">
+              <span>{{ i18n.t('details.subtotal') }}</span>
+              <span>EGP {{ pricing()?.subtotal?.toFixed(2) }}</span>
+            </div>
+            @if (order.type === 'dine-in') {
+              <div class="totals-row">
+                <span>{{ i18n.t('details.service') }}</span>
+                <span>EGP {{ pricing()?.service?.toFixed(2) }}</span>
+              </div>
+            }
+            <div class="totals-row">
+              <span>{{ i18n.t('details.vat') }}</span>
+              <span>EGP {{ pricing()?.vat?.toFixed(2) }}</span>
+            </div>
+            <div class="totals-row totals-row--grand">
+              <span>{{ i18n.t('details.total') }}</span>
+              <span>EGP {{ pricing()?.total?.toFixed(2) }}</span>
+            </div>
+          </section>
+        </article>
+      }
+    }
+  }
+</div>
