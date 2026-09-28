@@ -1,0 +1,14 @@
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<header class="app-header">
+  <a class="app-header__brand" routerLink="/orders">🍳 {{ i18n.t('app.title') }}</a>
+  <button type="button" class="btn btn--ghost btn--sm" (click)="i18n.toggle()">
+    {{ i18n.t('lang.toggle') }}
+  </button>
+</header>
+
+<main id="main-content">
+  <router-outlet />
+</main>
+
+<app-toast-tray />
