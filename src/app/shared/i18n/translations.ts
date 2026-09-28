@@ -4,9 +4,7 @@ export type TranslationKey = keyof typeof en;
 
 export const en = {
   'app.title': 'Kitchen Orders Board',
-  'nav.board': 'Board',
   'nav.newOrder': 'New order',
-  'lang.toggle': 'العربية',
 
   'status.new': 'New',
   'status.preparing': 'Preparing',
@@ -43,10 +41,8 @@ export const en = {
   'card.advance.preparing': 'Mark ready',
   'card.advance.ready': 'Mark served',
   'card.moveFailed': "Couldn't update order #{{number}}. It has been moved back.",
-  'card.moveSuccess': 'Order #{{number}} moved to {{status}}.',
   'card.viewDetails': 'View details',
 
-  'details.back': 'Back to board',
   'details.title': 'Order #{{number}}',
   'details.notFound.title': 'Order not found',
   'details.notFound.body': "We couldn't find an order with id \"{{id}}\".",
@@ -89,16 +85,11 @@ export const en = {
   'error.minItems': 'Add at least one item.',
   'error.egyptianPhone': 'Enter a valid Egyptian mobile number (e.g. 01012345678).',
   'error.tableRange': 'Table number must be between 1 and 40.',
-
-  'common.retry': 'Retry',
-  'common.close': 'Close',
 } as const;
 
 export const ar: Record<TranslationKey, string> = {
   'app.title': 'لوحة طلبات المطبخ',
-  'nav.board': 'اللوحة',
   'nav.newOrder': 'طلب جديد',
-  'lang.toggle': 'English',
 
   'status.new': 'جديد',
   'status.preparing': 'قيد التحضير',
@@ -135,10 +126,8 @@ export const ar: Record<TranslationKey, string> = {
   'card.advance.preparing': 'تحديد كجاهز',
   'card.advance.ready': 'تحديد كمُقدَّم',
   'card.moveFailed': 'تعذّر تحديث الطلب #{{number}}. تم إرجاعه لحالته السابقة.',
-  'card.moveSuccess': 'تم نقل الطلب #{{number}} إلى {{status}}.',
   'card.viewDetails': 'عرض التفاصيل',
 
-  'details.back': 'العودة إلى اللوحة',
   'details.title': 'طلب #{{number}}',
   'details.notFound.title': 'الطلب غير موجود',
   'details.notFound.body': 'تعذّر العثور على طلب بالمعرّف "{{id}}".',
@@ -181,7 +170,4 @@ export const ar: Record<TranslationKey, string> = {
   'error.minItems': 'أضف صنفًا واحدًا على الأقل.',
   'error.egyptianPhone': 'أدخل رقم هاتف مصري صحيح (مثال 01012345678).',
   'error.tableRange': 'يجب أن يكون رقم الطاولة بين 1 و 40.',
-
-  'common.retry': 'إعادة المحاولة',
-  'common.close': 'إغلاق',
 };

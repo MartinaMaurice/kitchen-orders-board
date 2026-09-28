@@ -34,10 +34,6 @@ export class TranslationService {
     this.lang.set(this.lang() === 'en' ? 'ar' : 'en');
   }
 
-  setLang(lang: Lang): void {
-    this.lang.set(lang);
-  }
-
   /**
    * Translates `key`, interpolating `{{token}}` placeholders from `params`.
    * Accepts a plain `string` too (widened from `TranslationKey`) so call sites that

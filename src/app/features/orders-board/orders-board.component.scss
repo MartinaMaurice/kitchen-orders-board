@@ -43,10 +43,29 @@
   margin-top: 0.15rem;
 }
 
+.board-page__refresh-tag {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-start: 0.5rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  animation: pulse-fade 1.1s ease-in-out infinite;
+}
+
+@keyframes pulse-fade {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .board-page__banner {
-  background: #fff7ed;
-  border: 1px solid #fed7aa;
-  color: #9a3412;
+  background: var(--color-warning-bg);
+  border: 1px solid var(--color-warning-border);
+  color: var(--color-warning);
   border-radius: var(--radius-md);
   padding: 0.5rem 0.85rem;
   font-size: 0.82rem;

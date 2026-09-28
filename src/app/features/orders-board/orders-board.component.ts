@@ -51,6 +51,7 @@ export class OrdersBoardComponent {
   protected readonly menu = toSignal(this.menuService.getMenu(), { initialValue: [] });
   protected readonly orders = this.ordersService.orders;
   protected readonly loading = this.ordersService.loading;
+  protected readonly refreshing = this.ordersService.refreshing;
   protected readonly error = this.ordersService.error;
   protected readonly advancingId = signal<string | null>(null);
 
@@ -89,10 +90,6 @@ export class OrdersBoardComponent {
 
   retry(): void {
     this.ordersService.refreshNow();
-  }
-
-  closeModal(): void {
-    this.router.navigate(['/orders'], { queryParamsHandling: 'preserve' });
   }
 
   onAdvance(order: Order): void {

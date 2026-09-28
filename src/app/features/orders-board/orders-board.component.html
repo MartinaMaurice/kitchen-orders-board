@@ -3,7 +3,12 @@
     <header class="board-page__header">
       <div>
         <h1>{{ i18n.t('board.title') }}</h1>
-        <p class="board-page__subtitle">{{ i18n.t('board.subtitle') }}</p>
+        <p class="board-page__subtitle">
+          {{ i18n.t('board.subtitle') }}
+          @if (refreshing() && !loading()) {
+            <span class="board-page__refresh-tag">{{ i18n.t('board.refreshing') }}</span>
+          }
+        </p>
       </div>
       <a class="btn btn--primary" routerLink="/orders/new">+ {{ i18n.t('nav.newOrder') }}</a>
     </header>
