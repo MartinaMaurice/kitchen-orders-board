@@ -49,7 +49,15 @@ export class OrdersService {
   }
 
   createOrder(payload: NewOrderPayload): Observable<Order> {
-    return this.http.post<Order>(this.baseUrl, payload);
+    return this.http.post<Order>(this.baseUrl, payload).pipe(
+      tap((order) => {
+        // Add it to local state straight from the POST response rather than relying on
+        // a follow-up fetch to find it: some backends (e.g. the deployed demo's
+        // multi-instance my-json-server) don't reliably serve back what was just
+        // written, so a GET-by-id/refetch immediately after creating isn't trustworthy.
+        this.orders.update((list) => [...list, order]);
+      }),
+    );
   }
 
   /**
