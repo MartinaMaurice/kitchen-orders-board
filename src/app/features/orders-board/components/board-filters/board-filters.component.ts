@@ -45,7 +45,7 @@ export class BoardFiltersComponent {
       .subscribe((value) => this.searchChange.emit(value.trim()));
   }
 
-  onTypeChange(value: string): void {
-    this.typeChange.emit(value as TypeFilter);
+  onTypeChange(value: TypeFilter): void {
+    this.typeChange.emit(value);
   }
 }

@@ -1,17 +1,91 @@
 .filters {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.6rem;
 }
 
 .filters__search {
-  flex: 2 1 240px;
+  position: relative;
+  flex: 1 1 220px;
+  max-width: 340px;
+  display: flex;
+  align-items: center;
 }
 
-.filters__type {
-  flex: 1 1 160px;
+.filters__search-icon {
+  position: absolute;
+  inset-inline-start: 0.75rem;
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-muted);
+  pointer-events: none;
 }
 
-.field__control[type='search'] {
+.filters__search-input {
+  width: 100%;
+  border: 1.5px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.55rem 0.9rem 0.55rem 2.15rem;
+  font-size: 0.87rem;
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
   appearance: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+
+  &::-webkit-search-cancel-button {
+    appearance: none;
+  }
+
+  &:focus-visible,
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background: var(--color-surface);
+    box-shadow: 0 0 0 4px var(--color-primary-soft);
+  }
+}
+
+html[dir='rtl'] .filters__search-icon {
+  inset-inline-start: auto;
+  inset-inline-end: 0.75rem;
+}
+
+html[dir='rtl'] .filters__search-input {
+  padding: 0.55rem 2.15rem 0.55rem 0.9rem;
+}
+
+.filters__types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.filters__chip {
+  border: 1.5px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.filters__chip--active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-primary-contrast);
 }

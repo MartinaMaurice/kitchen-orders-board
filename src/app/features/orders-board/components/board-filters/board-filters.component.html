@@ -1,23 +1,38 @@
 <div class="filters">
-  <div class="field filters__search">
+  <div class="filters__search">
     <label class="visually-hidden" for="board-search">{{ i18n.t('board.search.label') }}</label>
+    <svg class="filters__search-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.6" />
+      <path d="M17 17L13.5 13.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+    </svg>
     <input
       id="board-search"
       type="search"
-      class="field__control"
+      class="filters__search-input"
       [formControl]="searchControl"
       [placeholder]="i18n.t('board.search.placeholder')"
       autocomplete="off"
     />
   </div>
 
-  <div class="field filters__type">
-    <label class="visually-hidden" for="board-type">{{ i18n.t('board.filter.label') }}</label>
-    <select id="board-type" class="field__control" [value]="type()" (change)="onTypeChange($any($event.target).value)">
-      <option value="all">{{ i18n.t('type.all') }}</option>
-      @for (t of types; track t) {
-        <option [value]="t">{{ i18n.t('type.' + t) }}</option>
-      }
-    </select>
+  <div class="filters__types" role="group" [attr.aria-label]="i18n.t('board.filter.label')">
+    <button
+      type="button"
+      class="filters__chip"
+      [class.filters__chip--active]="type() === 'all'"
+      (click)="onTypeChange('all')"
+    >
+      {{ i18n.t('type.all') }}
+    </button>
+    @for (t of types; track t) {
+      <button
+        type="button"
+        class="filters__chip"
+        [class.filters__chip--active]="type() === t"
+        (click)="onTypeChange(t)"
+      >
+        {{ i18n.t('type.' + t) }}
+      </button>
+    }
   </div>
 </div>

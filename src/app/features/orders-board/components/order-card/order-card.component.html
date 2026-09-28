@@ -8,7 +8,7 @@
   </header>
 
   <p class="order-card__meta">
-    {{ i18n.plural('card.items', itemCount()) }} · EGP {{ subtotal().toFixed(2) }}
+    {{ i18n.plural('card.items', itemCount()) }} <span class="order-card__dot">·</span> EGP {{ subtotal().toFixed(2) }}
   </p>
 
   <footer class="order-card__footer">
@@ -20,7 +20,7 @@
     />
 
     @if (nextStatus()) {
-      <button type="button" class="btn btn--primary btn--sm" [disabled]="advancing()" (click)="onAdvance()">
+      <button type="button" class="order-card__advance" [disabled]="advancing()" (click)="onAdvance()">
         {{ advanceLabel() }}
       </button>
     }
