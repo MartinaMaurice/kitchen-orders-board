@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { MenuService } from '../../core/services/menu.service';
 import { OrdersService } from '../../core/services/orders.service';
@@ -11,6 +11,7 @@ import { MenuItem } from '../../core/models/menu.model';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
 import { LoadingStateComponent } from '../../shared/components/loading-state/loading-state.component';
+import { ModalOverlayComponent } from '../../shared/components/modal-overlay/modal-overlay.component';
 import { TranslationService } from '../../shared/i18n/translation.service';
 import { priceOrder } from '../../shared/utils/pricing.util';
 
@@ -23,13 +24,14 @@ type DetailsState =
 @Component({
   selector: 'app-order-details',
   standalone: true,
-  imports: [RouterLink, DatePipe, LoadingStateComponent, ErrorStateComponent, EmptyStateComponent],
+  imports: [DatePipe, LoadingStateComponent, ErrorStateComponent, EmptyStateComponent, ModalOverlayComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './order-details.component.html',
   styleUrl: './order-details.component.scss',
 })
 export class OrderDetailsComponent {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly ordersService = inject(OrdersService);
   private readonly menuService = inject(MenuService);
   protected readonly i18n = inject(TranslationService);
@@ -66,4 +68,8 @@ export class OrderDetailsComponent {
     const state = this.state();
     return state.kind === 'ready' ? priceOrder(state.order, state.menu) : null;
   });
+
+  close(): void {
+    this.router.navigate(['/orders'], { queryParamsHandling: 'preserve' });
+  }
 }

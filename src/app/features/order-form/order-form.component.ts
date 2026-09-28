@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { MenuService } from '../../core/services/menu.service';
 import { NewOrderPayload, ORDER_TYPES, OrderType } from '../../core/models/order.model';
 import { OrdersService } from '../../core/services/orders.service';
@@ -11,13 +11,14 @@ import { egyptianPhoneValidator, minItemsValidator, tableNumberValidator } from 
 import { priceOrderItems } from '../../shared/utils/pricing.util';
 import { OrderFormGroup, OrderItemFormGroup } from './order-form.types';
 import { OrderItemRowComponent } from './components/order-item-row/order-item-row.component';
+import { ModalOverlayComponent } from '../../shared/components/modal-overlay/modal-overlay.component';
 
 const STARTING_ORDER_NUMBER = 1000;
 
 @Component({
   selector: 'app-order-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, OrderItemRowComponent],
+  imports: [ReactiveFormsModule, OrderItemRowComponent, ModalOverlayComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './order-form.component.html',
   styleUrl: './order-form.component.scss',
@@ -108,6 +109,7 @@ export class OrderFormComponent {
     this.ordersService.createOrder(payload).subscribe({
       next: (order) => {
         this.toast.success(this.i18n.t('form.success', { number: order.number }));
+        this.ordersService.refreshNow();
         this.router.navigate(['/orders', order.id]);
       },
       error: () => {
@@ -115,6 +117,10 @@ export class OrderFormComponent {
         this.toast.error(this.i18n.t('form.error'));
       },
     });
+  }
+
+  close(): void {
+    this.router.navigate(['/orders'], { queryParamsHandling: 'preserve' });
   }
 
   private createItemGroup(): OrderItemFormGroup {

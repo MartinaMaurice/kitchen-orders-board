@@ -1,6 +1,7 @@
+import { CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MenuService } from '../../core/services/menu.service';
 import { OrdersService } from '../../core/services/orders.service';
 import { ToastService } from '../../core/services/toast.service';
@@ -18,6 +19,8 @@ import { OrderColumnComponent } from './components/order-column/order-column.com
   standalone: true,
   imports: [
     RouterLink,
+    RouterOutlet,
+    CdkDropListGroup,
     BoardFiltersComponent,
     OrderColumnComponent,
     LoadingStateComponent,
@@ -86,6 +89,10 @@ export class OrdersBoardComponent {
 
   retry(): void {
     this.ordersService.refreshNow();
+  }
+
+  closeModal(): void {
+    this.router.navigate(['/orders'], { queryParamsHandling: 'preserve' });
   }
 
   onAdvance(order: Order): void {

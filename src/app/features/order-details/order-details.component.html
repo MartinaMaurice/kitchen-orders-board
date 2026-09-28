@@ -1,6 +1,4 @@
-<div class="details-page">
-  <a class="details-page__back" routerLink="/orders">&larr; {{ i18n.t('details.back') }}</a>
-
+<app-modal-overlay [label]="i18n.t('details.title', { number: order()?.number ?? '' })" (close)="close()">
   @switch (kind()) {
     @case ('loading') {
       <app-loading-state [message]="i18n.t('details.loading')" />
@@ -82,4 +80,4 @@
       }
     }
   }
-</div>
+</app-modal-overlay>
