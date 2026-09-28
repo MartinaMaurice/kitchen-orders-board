@@ -29,10 +29,14 @@
   }
 }
 
+.modal-overlay__toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.6rem 0.6rem 0;
+}
+
 .modal-overlay__close {
-  position: absolute;
-  top: 0.75rem;
-  inset-inline-end: 0.75rem;
+  flex-shrink: 0;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -42,7 +46,6 @@
   font-size: 1.3rem;
   line-height: 1;
   cursor: pointer;
-  z-index: 1;
 
   &:hover {
     background: var(--color-border);
@@ -51,7 +54,7 @@
 }
 
 .modal-overlay__content {
-  padding: clamp(1.1rem, 4vw, 1.9rem);
+  padding: 0.25rem clamp(1.1rem, 4vw, 1.9rem) clamp(1.1rem, 4vw, 1.9rem);
 }
 
 @keyframes fade-in {

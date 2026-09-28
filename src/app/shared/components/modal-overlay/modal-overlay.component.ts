@@ -20,7 +20,9 @@ import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, inp
         [attr.aria-label]="label()"
         #panel
       >
-        <button type="button" class="modal-overlay__close" (click)="close.emit()" aria-label="Close">&times;</button>
+        <div class="modal-overlay__toolbar">
+          <button type="button" class="modal-overlay__close" (click)="close.emit()" aria-label="Close">&times;</button>
+        </div>
         <div class="modal-overlay__content">
           <ng-content></ng-content>
         </div>
