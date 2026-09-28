@@ -75,6 +75,10 @@ export class OrderFormComponent {
     return this.form.controls.items.controls;
   }
 
+  setType(type: OrderType): void {
+    this.form.controls.type.setValue(type);
+  }
+
   addItem(): void {
     this.form.controls.items.push(this.createItemGroup());
   }

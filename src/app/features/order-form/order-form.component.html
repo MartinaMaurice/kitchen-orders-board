@@ -5,57 +5,57 @@
   </header>
 
   <form class="order-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
-    <div class="order-form__row">
-      <div class="field">
-        <label class="field__label" for="order-type">{{ i18n.t('form.type') }}</label>
-        <select id="order-type" class="field__control" formControlName="type">
-          @for (t of types; track t) {
-            <option [value]="t">{{ i18n.t('type.' + t) }}</option>
-          }
-        </select>
+    <div class="field">
+      <span class="field__label">{{ i18n.t('form.type') }}</span>
+      <div class="type-picker" role="radiogroup" [attr.aria-label]="i18n.t('form.type')">
+        @for (t of types; track t) {
+          <button
+            type="button"
+            class="type-picker__option"
+            role="radio"
+            [attr.aria-checked]="selectedType() === t"
+            [class.type-picker__option--active]="selectedType() === t"
+            (click)="setType(t)"
+          >
+            {{ i18n.t('type.' + t) }}
+          </button>
+        }
       </div>
-
-      @if (selectedType() === 'dine-in') {
-        <div class="field">
-          <label class="field__label" for="order-table">{{ i18n.t('form.table') }}</label>
-          <input
-            id="order-table"
-            type="number"
-            class="field__control"
-            formControlName="table"
-            min="1"
-            max="40"
-          />
-          <span class="field__hint">{{ i18n.t('form.table.hint') }}</span>
-          @if (form.controls.table.invalid && form.controls.table.touched) {
-            <span class="field__error">
-              @if (form.controls.table.hasError('required')) {
-                {{ i18n.t('error.required') }}
-              } @else if (form.controls.table.hasError('tableRange')) {
-                {{ i18n.t('error.tableRange') }}
-              }
-            </span>
-          }
-        </div>
-      }
-
-      @if (selectedType() === 'delivery') {
-        <div class="field">
-          <label class="field__label" for="order-phone">{{ i18n.t('form.phone') }}</label>
-          <input id="order-phone" type="tel" class="field__control" formControlName="phone" placeholder="01012345678" />
-          <span class="field__hint">{{ i18n.t('form.phone.hint') }}</span>
-          @if (form.controls.phone.invalid && form.controls.phone.touched) {
-            <span class="field__error">
-              @if (form.controls.phone.hasError('required')) {
-                {{ i18n.t('error.required') }}
-              } @else if (form.controls.phone.hasError('egyptianPhone')) {
-                {{ i18n.t('error.egyptianPhone') }}
-              }
-            </span>
-          }
-        </div>
-      }
     </div>
+
+    @if (selectedType() === 'dine-in') {
+      <div class="field">
+        <label class="field__label" for="order-table">{{ i18n.t('form.table') }}</label>
+        <input id="order-table" type="number" class="field__control" formControlName="table" min="1" max="40" />
+        <span class="field__hint">{{ i18n.t('form.table.hint') }}</span>
+        @if (form.controls.table.invalid && form.controls.table.touched) {
+          <span class="field__error">
+            @if (form.controls.table.hasError('required')) {
+              {{ i18n.t('error.required') }}
+            } @else if (form.controls.table.hasError('tableRange')) {
+              {{ i18n.t('error.tableRange') }}
+            }
+          </span>
+        }
+      </div>
+    }
+
+    @if (selectedType() === 'delivery') {
+      <div class="field">
+        <label class="field__label" for="order-phone">{{ i18n.t('form.phone') }}</label>
+        <input id="order-phone" type="tel" class="field__control" formControlName="phone" placeholder="01012345678" />
+        <span class="field__hint">{{ i18n.t('form.phone.hint') }}</span>
+        @if (form.controls.phone.invalid && form.controls.phone.touched) {
+          <span class="field__error">
+            @if (form.controls.phone.hasError('required')) {
+              {{ i18n.t('error.required') }}
+            } @else if (form.controls.phone.hasError('egyptianPhone')) {
+              {{ i18n.t('error.egyptianPhone') }}
+            }
+          </span>
+        }
+      </div>
+    }
 
     <section class="order-form__items">
       <div class="order-form__items-header">
