@@ -104,7 +104,11 @@
   }
 
   .board-page__columns > * {
-    flex: 0 0 82vw;
+    /* A percentage of the (already viewport-bounded) flex container, not vw:
+       vw measures the outer window and, on browsers with a visible scrollbar,
+       is wider than the content area actually available, which pushed this
+       column past the right edge instead of leaving room to scroll to it. */
+    flex: 0 0 82%;
     max-width: 340px;
     scroll-snap-align: start;
   }
