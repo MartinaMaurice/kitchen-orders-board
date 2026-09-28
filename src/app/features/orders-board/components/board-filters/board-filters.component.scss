@@ -1,0 +1,17 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.filters__search {
+  flex: 2 1 240px;
+}
+
+.filters__type {
+  flex: 1 1 160px;
+}
+
+.field__control[type='search'] {
+  appearance: none;
+}

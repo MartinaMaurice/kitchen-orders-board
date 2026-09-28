@@ -1,0 +1,28 @@
+<article class="order-card" [class]="'order-card--' + order().status" [attr.data-order]="order().number">
+  <header class="order-card__header">
+    <a class="order-card__number" [routerLink]="['/orders', order().id]">
+      #{{ order().number }}
+      <span class="visually-hidden">{{ i18n.t('card.viewDetails') }}</span>
+    </a>
+    <span class="order-card__type">{{ typeMeta() }}</span>
+  </header>
+
+  <p class="order-card__meta">
+    {{ i18n.plural('card.items', itemCount()) }} · EGP {{ subtotal().toFixed(2) }}
+  </p>
+
+  <footer class="order-card__footer">
+    <app-elapsed-timer
+      [createdAt]="order().createdAt"
+      [status]="order().status"
+      [lateLabel]="i18n.t('card.late')"
+      [doneLabel]="i18n.t('card.done')"
+    />
+
+    @if (nextStatus()) {
+      <button type="button" class="btn btn--primary btn--sm" [disabled]="advancing()" (click)="onAdvance()">
+        {{ advanceLabel() }}
+      </button>
+    }
+  </footer>
+</article>

@@ -1,0 +1,22 @@
+<section class="column" [class]="'column--' + status()" [attr.aria-label]="title()">
+  <header class="column__header">
+    <h2 class="column__title">{{ title() }}</h2>
+    <span class="column__count">{{ orders().length }}</span>
+  </header>
+
+  <div class="column__body">
+    @for (order of orders(); track order.id) {
+      <app-order-card
+        [order]="order"
+        [menu]="menu()"
+        [advancing]="advancingId() === order.id"
+        (advance)="advance.emit($event)"
+      />
+    } @empty {
+      <app-empty-state
+        [title]="hasActiveFilters() ? i18n.t('board.empty.noResults.title') : i18n.t('board.empty.title')"
+        [body]="hasActiveFilters() ? i18n.t('board.empty.noResults.body') : i18n.t('board.empty.body')"
+      />
+    }
+  </div>
+</section>

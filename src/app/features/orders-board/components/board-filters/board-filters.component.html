@@ -1,0 +1,23 @@
+<div class="filters">
+  <div class="field filters__search">
+    <label class="visually-hidden" for="board-search">{{ i18n.t('board.search.label') }}</label>
+    <input
+      id="board-search"
+      type="search"
+      class="field__control"
+      [formControl]="searchControl"
+      [placeholder]="i18n.t('board.search.placeholder')"
+      autocomplete="off"
+    />
+  </div>
+
+  <div class="field filters__type">
+    <label class="visually-hidden" for="board-type">{{ i18n.t('board.filter.label') }}</label>
+    <select id="board-type" class="field__control" [value]="type()" (change)="onTypeChange($any($event.target).value)">
+      <option value="all">{{ i18n.t('type.all') }}</option>
+      @for (t of types; track t) {
+        <option [value]="t">{{ i18n.t('type.' + t) }}</option>
+      }
+    </select>
+  </div>
+</div>

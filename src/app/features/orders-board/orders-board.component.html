@@ -1,0 +1,52 @@
+<div class="board-page">
+  <header class="board-page__header">
+    <div>
+      <h1>{{ i18n.t('board.title') }}</h1>
+      <p class="board-page__subtitle">{{ i18n.t('board.subtitle') }}</p>
+    </div>
+    <a class="btn btn--primary" routerLink="/orders/new">{{ i18n.t('nav.newOrder') }}</a>
+  </header>
+
+  @if (visibility.hidden()) {
+    <p class="board-page__banner" role="status">{{ i18n.t('board.paused') }}</p>
+  }
+
+  <app-board-filters
+    [search]="search()"
+    [type]="type()"
+    (searchChange)="onSearchChange($event)"
+    (typeChange)="onTypeChange($event)"
+  />
+
+  @if (loading()) {
+    <app-loading-state [message]="i18n.t('board.loading')" />
+  } @else if (error() && orders().length === 0) {
+    <app-error-state
+      [title]="i18n.t('board.error.title')"
+      [retryLabel]="i18n.t('board.error.retry')"
+      (retry)="retry()"
+    />
+  } @else {
+    @if (hasActiveFilters() && filteredOrders().length === 0) {
+      <app-empty-state [title]="i18n.t('board.empty.noResults.title')" [body]="i18n.t('board.empty.noResults.body')">
+        <button type="button" class="btn btn--secondary btn--sm" (click)="clearFilters()">
+          {{ i18n.t('board.clearFilters') }}
+        </button>
+      </app-empty-state>
+    } @else {
+      <div class="board-page__columns">
+        @for (status of statuses; track status) {
+          <app-order-column
+            [status]="status"
+            [title]="i18n.t('status.' + status)"
+            [orders]="ordersFor(status)"
+            [menu]="menu()"
+            [hasActiveFilters]="hasActiveFilters()"
+            [advancingId]="advancingId()"
+            (advance)="onAdvance($event)"
+          />
+        }
+      </div>
+    }
+  }
+</div>
