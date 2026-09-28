@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { MenuService } from '../../core/services/menu.service';
 import { OrdersService } from '../../core/services/orders.service';
@@ -30,15 +30,16 @@ type DetailsState =
   styleUrl: './order-details.component.scss',
 })
 export class OrderDetailsComponent {
-  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly ordersService = inject(OrdersService);
   private readonly menuService = inject(MenuService);
   protected readonly i18n = inject(TranslationService);
 
+  /** Bound directly from the `:id` route param via `withComponentInputBinding()`. */
+  readonly id = input.required<string>();
+
   private readonly state = toSignal(
-    this.route.paramMap.pipe(
-      map((params) => params.get('id') ?? ''),
+    toObservable(this.id).pipe(
       switchMap((id) =>
         this.ordersService.getOrder(id).pipe(
           switchMap((order) => this.menuService.getMenu().pipe(map((menu) => ({ order, menu })))),

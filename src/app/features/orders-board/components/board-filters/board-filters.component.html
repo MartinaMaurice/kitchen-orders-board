@@ -20,6 +20,7 @@
       type="button"
       class="filters__chip"
       [class.filters__chip--active]="type() === 'all'"
+      [attr.aria-pressed]="type() === 'all'"
       (click)="onTypeChange('all')"
     >
       {{ i18n.t('type.all') }}
@@ -29,6 +30,7 @@
         type="button"
         class="filters__chip"
         [class.filters__chip--active]="type() === t"
+        [attr.aria-pressed]="type() === t"
         (click)="onTypeChange(t)"
       >
         {{ i18n.t('type.' + t) }}
