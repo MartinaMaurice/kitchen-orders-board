@@ -3,5 +3,5 @@
 // https://my-json-server.typicode.com/<github-user>/<repo-name>
 export const environment = {
   production: true,
-  apiUrl: 'https://my-json-server.typicode.com/martinamaurice/kitchen-orders-board',
+  apiUrl: 'https://my-json-server.typicode.com/MartinaMaurice/kitchen-orders-board',
 };
