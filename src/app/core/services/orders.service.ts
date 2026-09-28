@@ -90,7 +90,13 @@ export class OrdersService {
 
     return this.http.get<Order[]>(this.baseUrl).pipe(
       tap((orders) => {
-        this.orders.set(orders);
+        // Nothing in this app ever deletes an order, so if one we already know about is
+        // missing from a fresh fetch, that's a backend read-consistency hiccup (seen on
+        // the deployed demo's multi-instance mock API), not a real deletion — keep it
+        // rather than silently dropping it off the board a poll cycle after it appeared.
+        const knownIds = new Set(orders.map((o) => o.id));
+        const stillMissing = this.orders().filter((o) => !knownIds.has(o.id));
+        this.orders.set([...orders, ...stillMissing]);
         this.loading.set(false);
         this.refreshing.set(false);
         this.error.set(null);

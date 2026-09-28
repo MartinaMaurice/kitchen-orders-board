@@ -44,9 +44,21 @@ export class OrderDetailsComponent {
         this.ordersService.getOrder(id).pipe(
           switchMap((order) => this.menuService.getMenu().pipe(map((menu) => ({ order, menu })))),
           map(({ order, menu }): DetailsState => ({ kind: 'ready', order, menu })),
-          catchError((err: HttpErrorResponse) =>
-            of<DetailsState>(err.status === 404 ? { kind: 'not-found', id } : { kind: 'error' }),
-          ),
+          catchError((err: HttpErrorResponse) => {
+            if (err.status !== 404) {
+              return of<DetailsState>({ kind: 'error' });
+            }
+            // The board may already hold this order in memory (e.g. it was just created
+            // and the backend's own GET-by-id hasn't caught up yet — seen on the deployed
+            // demo's mock API). Fall back to that before declaring it genuinely missing.
+            const cached = this.ordersService.orders().find((o) => o.id === id);
+            if (!cached) {
+              return of<DetailsState>({ kind: 'not-found', id });
+            }
+            return this.menuService
+              .getMenu()
+              .pipe(map((menu): DetailsState => ({ kind: 'ready', order: cached, menu })));
+          }),
         ),
       ),
     ),
