@@ -1,10 +1,11 @@
 <a class="skip-link" href="#main-content">Skip to content</a>
 
 <header class="app-header">
-  <a class="app-header__brand" routerLink="/orders">🍳 {{ i18n.t('app.title') }}</a>
-  <button type="button" class="btn btn--ghost btn--sm" (click)="i18n.toggle()">
-    {{ i18n.t('lang.toggle') }}
-  </button>
+  <a class="app-header__brand" routerLink="/orders">
+    <span class="app-header__logo" aria-hidden="true">🍳</span>
+    {{ i18n.t('app.title') }}
+  </a>
+  <app-lang-toggle />
 </header>
 
 <main id="main-content">
