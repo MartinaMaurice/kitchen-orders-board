@@ -7,6 +7,10 @@
   cursor: pointer;
   padding: 0.2rem;
   border-radius: 999px;
+  /* Keep EN/track/AR in a fixed physical order and let the thumb's own
+     transform do the moving — otherwise an RTL ancestor flips the flex
+     order AND we flip the transform, and the two flips fight each other. */
+  direction: ltr;
 
   &:focus-visible {
     outline: 2px solid var(--color-primary);
@@ -39,7 +43,7 @@
 .lang-toggle__thumb {
   position: absolute;
   top: 2px;
-  inset-inline-start: 2px;
+  left: 2px;
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -50,8 +54,4 @@
 
 .lang-toggle__thumb--ar {
   transform: translateX(14px);
-}
-
-html[dir='rtl'] .lang-toggle__thumb--ar {
-  transform: translateX(-14px);
 }

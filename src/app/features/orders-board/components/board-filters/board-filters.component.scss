@@ -88,4 +88,10 @@ html[dir='rtl'] .filters__search-input {
   background: var(--color-primary);
   border-color: var(--color-primary);
   color: var(--color-primary-contrast);
+
+  &:hover {
+    background: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    color: var(--color-primary-contrast);
+  }
 }
