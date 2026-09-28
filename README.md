@@ -34,15 +34,17 @@ rule, and two components (`OrderCardComponent`, `AppComponent`).
 
 All seven core requirements, plus every optional bonus:
 
-- **Board** at `/orders` with four live-counted columns, search (debounced) by order/table
-  number, type filter, both synced to URL query params.
+- **Board** at `/orders` (also aliased at `/`, so the app doesn't force a redirect on first load)
+  with four live-counted columns, search (debounced) by order/table number, type filter, both
+  synced to URL query params.
 - **Move forward**: a button on every card (`PATCH /orders/:id`), optimistic UI with rollback +
   toast on failure. Cards can also be **dragged** into the next column (see bonuses below).
 - **Order details** at `/orders/:id`, lazy-loaded, full price breakdown, handles a missing id.
 - **New order** at `/orders/new`, lazy-loaded, dynamic item rows, custom validators, live running
   total, submit-guarding.
 - **Auto-refresh** every 15s, no overlapping requests, stops when you leave the board.
-- Loading / empty / error states everywhere; usable down to 375px.
+- Loading / empty / error states everywhere; usable down to 375px; automatic light/dark theme
+  (`prefers-color-scheme`).
 
 **Bonus (all five, since the brief said pick one or two — the app is small enough that doing all
 of them didn't cost much extra time):**
@@ -92,6 +94,16 @@ render*: they're children of the `orders` route, rendering into the board compon
 whole page. This means the board — and its polling — stays mounted underneath while you fill in a
 new order or check an order's details, and the URLs, lazy loading and the ability to deep-link or
 refresh into `/orders/new` all still work exactly as specified.
+
+**The board is also aliased at `/`.** `app.routes.ts` points both `''` and `'orders'` at
+`OrdersBoardComponent`, so the app opens straight into the board without a `redirectTo` flicker or
+forcing `/orders` into the address bar on first load, while `/orders` itself is still the exact
+path the brief specifies (and the one every in-app link uses).
+
+**`OrderDetailsComponent` gets its id via `withComponentInputBinding()`,** not a manual
+`ActivatedRoute.paramMap` subscription: the `:id` route param is bound straight to an `id =
+input.required<string>()`, and `toObservable(this.id)` feeds the fetch pipeline. One line replaces
+what would otherwise be another RxJS subscription to manage.
 
 **Drag-and-drop (`@angular/cdk/drag-drop`) as a second way to advance an order,** alongside the
 required button. `cdkDropListEnterPredicate` only allows a card to enter the column that is its
@@ -143,6 +155,9 @@ runtime toggle, and a full i18n library was overkill for ~70 strings in two lang
 
 ## What I'd improve with more time
 
+- If the one-time `GET /menu` request itself fails, the new-order form has no explicit error state
+  for it — the menu dropdown just stays empty and the running total stays at zero. `MenuService`
+  would need its own `error` signal (mirroring `OrdersService`'s) surfaced in the form.
 - Per-card (rather than app-wide) submission locking during status advances.
 - A proper i18n extraction workflow (or a switch to `@angular/localize`) if the string count grew
   much further — the hand-rolled dictionary is fine at this size but wouldn't scale gracefully.
